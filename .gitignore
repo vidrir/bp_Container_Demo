@@ -1,0 +1,5 @@
+.vagrant
+.cache
+.pytest_cache
+./tests/ssh-config
+./tests/__pycache__
