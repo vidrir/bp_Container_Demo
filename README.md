@@ -14,18 +14,12 @@ This code creates a local VM.  The VM is fitted with ubuntu as the os.  Docker i
 PREREQS
 --------
 
-Vagrant 2.0.4 
-
-Ansible 2.5.2 
-
-VirtualBox Version 5.2.10 r122088 (Qt5.6.3) 
-
-testinfra-1.12.0 /pytest version 3.5.1 
-
-  Note: 
-    I also installed the following: "pip install pytest requests" - to test the final webpage via pytest. 
-    
-Ubuntu 14.04.5 LTS 
+* Vagrant 2.0.4 
+* Ansible 2.5.2 
+* VirtualBox Version 5.2.10 r122088 (Qt5.6.3) 
+* testinfra-1.12.0 /pytest version 3.5.1 
+   - Note: I also installed the following: "pip install pytest requests" - to test the final webpage via pytest. 
+* Ubuntu 14.04.5 LTS 
 
 
 INSTRUCTIONS
