@@ -1,5 +1,5 @@
 # bp_Container_Demo
-Demonstration of Devops Flow - using vagrant/ansilbe 
+Demonstration of Devops Flow - using vagrant/ansible 
 1. create VM.
 2. install docker
 3. create linux alpine image within docker
