@@ -1,5 +1,6 @@
 FROM alpine:latest
 RUN apk add --update nginx
+#FROM nginx:alpine
 
 RUN mkdir -p /usr/share/nginx/html
 RUN chown -R 0644 /usr/share/nginx/html

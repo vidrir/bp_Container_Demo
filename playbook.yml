@@ -1,6 +1,14 @@
 - name: Configure docker with guest
   hosts: default
   become: True
+  gather_facts: no
+  pre_tasks:
+    - name: 'install python2 for ansible'
+      raw: bash -c "test -e /usr/bin/python || (apt -qqy update && apt install -qqy python-minimal)"
+      register: output
+      changed_when: output.stdout != ""
+    - name: 'Gathering Facts' 
+      setup:
   tasks:
     - package:
       name: "{{item}}"
@@ -9,7 +17,7 @@
         - ca-certificates
         - curl
         - software-properties-common
-
+    
     - name: install pip
       apt: name=python-pip update_cache=yes state=present
 
@@ -25,7 +33,13 @@
 
     # Add extra repositories
     - name: Add ppa python repository
-      apt_repository: repo='deb http://ppa.launchpad.net/fkrull/deadsnakes-python2.7/ubuntu {{ ansible_distribution_release }} main' state=present update_cache=yes
+      #apt_repository: repo='deb http://ppa.launchpad.net/fkrull/deadsnakes-python2.7/ubuntu {{ ansible_distribution_release }} main' state=present update_cache=yes
+      apt_repository:
+        repo: "{{ item }}"
+      loop:
+        - "deb http://archive.ubuntu.com/ubuntu/ bionic universe"
+        - "deb http://archive.ubuntu.com/ubuntu/ bionic-updates universe"
+        - "deb http://security.ubuntu.com/ubuntu/ bionic-security universe"
       become: yes
       become_user: root
       become_method: sudo
@@ -36,6 +50,7 @@
         pkg: python2.7
         state: latest
         install_recommends: no
+        force: yes
       become: yes
       become_user: root
       become_method: sudo
@@ -56,7 +71,7 @@
 
     - name: Add Docker APT Repo
       apt_repository:
-        repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu trusty stable"
+        repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
 
     - name: install docker
       apt: name=docker-ce update_cache=yes
@@ -76,10 +91,12 @@
         name: adc
         path: /vagrant/container
         state: present
+        tag: v1
+        force: yes
 
     - name: create nginx container
       docker_container:
         name: nginx_alpine
-        image: adc
+        image: adc:v1
         ports: 8888:8888
         state: started
